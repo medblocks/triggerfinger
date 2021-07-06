@@ -3,7 +3,7 @@ import {
   querySelectorAllDeep,
   querySelectorDeep,
 } from "query-selector-shadow-dom";
-import { simulationActions } from './simulate'
+import { simulationActions } from '../../src/simulate'
 // Welcome to Cypress!
 //
 // This spec file contains a variety of sample tests
@@ -14,13 +14,16 @@ import { simulationActions } from './simulate'
 // what makes it such an awesome testing tool,
 // please read our getting started guide:
 // https://on.cypress.io/introduction-to-cypress
-const path = require("path")
-const fs = require('fs')
-describe('example to-do app', () => {
-  
-  
+describe('Generate UI states', () => {
+
+  let templateId
+  before(() => {
+    cy.task('getTemplate').then(detail => {
+      templateId = detail.name
+    })
+  })
   beforeEach(() => {
-    cy.visit('http://localhost:3000',
+    cy.visit(`http://localhost:3000/#${templateId}`,
     )
   })
   it('Generates all possible states', () => {
