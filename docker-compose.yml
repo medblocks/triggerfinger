@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+    db:
+        image: postgres
+        command: 
+            - -c
+            - max_replication_slots=10
+            - -c
+            - wal_level=logical
+        volumes:
+            - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+        environment:
+            POSTGRES_PASSWORD: postgres
+        ports:
+            - 5432:5432
+
+    openehr:
+        image: "ehrbase/ehrbase:0.16.5"
+        environment:
+            SPRING_DATASOURCE_URL: "jdbc:postgresql://db:5432/ehrbase"
+            SPRING_DATASOURCE_USERNAME: ehrbase
+            SPRING_DATASOURCE_PASSWORD: ehrbase
+            SERVER_AQLCONFIG_USEJSQUERY: "false"
+            SERVER_NODENAME: "localhost"
+        depends_on:
+            - db
+        ports:
+            - 5001:8080
