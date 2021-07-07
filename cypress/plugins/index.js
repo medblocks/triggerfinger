@@ -14,6 +14,8 @@
 const fs = require('fs')
 const path = require('path')
 const convert = require('xml-js')
+const { defineConfig } = require('vite')
+
 /**
  * @type {Cypress.PluginConfig}
  */
@@ -23,14 +25,28 @@ const getTemplateName = (xml) => {
   return JSON.parse(convert.xml2json(xml, { compact: true, spaces: 4 })).template.concept._text
 }
 module.exports = (on, config) => {
+  const viteConfig = defineConfig({
+    build: {
+      lib: {
+        entry: 'src/my-element.ts',
+        formats: ['es']
+      },
+      rollupOptions: {
+        external: /^lit-element/
+      }
+    }
+  })
   on('task', {
     getTemplate() {
       const template = path.join(process.cwd(), 'template.opt')
       const xml = fs.readFileSync(template).toString()
       return { xml, name: getTemplateName(xml) }
     },
-
   })
+  on('dev-server:start', (options) => {
+    return startDevServer({ options, viteConfig })
+  })
+  return config
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
 }

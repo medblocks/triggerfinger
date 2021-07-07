@@ -18,7 +18,7 @@ describe('Generate UI states', () => {
 
   let templateId
   before(() => {
-    cy.task('getTemplate').then(detail => {
+    cy.task('getTemplate').then((detail: any) => {
       templateId = detail.name
     })
   })
