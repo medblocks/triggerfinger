@@ -6,7 +6,7 @@ import "medblocks-ui";
 import "@shoelace-style/shoelace/dist/themes/base.css";
 import ky from "ky";
 
-const baseTemplateUrl = "http://localhost:5001/ehrbase/rest/ecis";
+const baseTemplateUrl = "http://openehr:8080/ehrbase/rest/ecis";
 
 const getForm = async (templateId) => {
   if (!templateId) {

@@ -3,7 +3,7 @@ import {
   querySelectorAllDeep,
   querySelectorDeep,
 } from "query-selector-shadow-dom";
-import { simulationActions } from '../../src/simulate'
+import { simulationActions } from "../../src/simulate";
 // Welcome to Cypress!
 //
 // This spec file contains a variety of sample tests
@@ -14,40 +14,49 @@ import { simulationActions } from '../../src/simulate'
 // what makes it such an awesome testing tool,
 // please read our getting started guide:
 // https://on.cypress.io/introduction-to-cypress
-describe('Generate UI states', () => {
-
-  let templateId
+describe("Generate UI states", () => {
+  let templateId;
   before(() => {
-    cy.task('getTemplate').then((detail: any) => {
-      templateId = detail.name
-    })
-  })
+    cy.task("getTemplate").then((template: { xml: string; name: string }) => {
+      templateId = template.name;
+      const baseUrl = Cypress.env("EHRBASE_URL");
+      cy.request({
+        url: `${baseUrl}/openehr/v1/definition/template/adl1.4`,
+        method: "POST",
+        body: template.xml,
+        headers: {
+          "Content-Type": "application/xml",
+        },
+        failOnStatusCode: false,
+      });
+    });
+  });
   beforeEach(() => {
-    cy.visit(`http://localhost:3000/#${templateId}`,
-    )
-  })
-  it('Generates all possible states', () => {
-    let form
-    let compositions = []
-    cy.get('mb-form').then(a => {
-      form = a[0]
-      return a
-    })
-      .children().each((el) => {
-        const e = el[0]
-        const type = e.tagName.toLowerCase()
-        if (simulationActions[type]) {
-          simulationActions[type]["defined"](e)
-          console.log(form)
-          form.insertContext()
-          const data = form.serialize()
-          compositions.push(data)
-          cy.log(data)
-          // cy.get('@mb-submit').should('be.calledOnce')
-        }
-      }).then(() => {
-        cy.writeFile("comp.json", compositions, 'utf-8')
-        console.log(compositions)
+    cy.visit(`${Cypress.env("VITE_URL")}/#${templateId}`);
+  });
+  it("Generates all possible states", () => {
+    let form;
+    let compositions = [];
+    cy.get("mb-form")
+      .then((a) => {
+        form = a[0];
+        return a;
       })
-  })
-})
+      .children()
+      .each((el, i) => {
+        const e = el[0];
+        const type = e.tagName.toLowerCase();
+        if (simulationActions[type]) {
+          simulationActions[type]["defined"](e);
+          console.log(form);
+          form.insertContext();
+          const data = form.serialize();
+          compositions.push(data);
+        }
+      })
+      .then(() => {
+        cy.writeFile("comp.json", compositions, "utf-8");
+        console.log(compositions);
+      });
+  });
+});

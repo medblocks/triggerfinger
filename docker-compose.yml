@@ -26,5 +26,27 @@ services:
       SERVER_NODENAME: "localhost"
     depends_on:
       - db
-    ports:
-      - 5001:8080
+
+  cypress:
+    image: cypress
+    build: .
+    container_name: cypress
+    command: sh -c "/wait && npm run ci"
+    environment:
+      WAIT_HOSTS: db:5432, openehr:8080
+      WAIT_TIMEOUT: 300
+      WAIT_AFTER: 5
+      WAIT_SLEEP_INTERVAL: 5
+    volumes:
+      - ./template.opt:/app/template.opt
+      - ./cypress:/app/cypress
+      - ./src:/app/src
+      - ./index.html:/app/index.html
+      - ./cypress.env.json:/app/cypress.env.json
+      - ./cypress.json:/app/cypress.json
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./vite.config.js:/app/vite.config.js
+      - ./output:/app/mochawesome-report
+    depends_on:
+      - openehr
+      - db

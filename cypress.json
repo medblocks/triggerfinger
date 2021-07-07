@@ -4,6 +4,11 @@
         "quiet": true,
         "json": true,
         "html": true,
-        "code": false
-    }
+        "code": false,
+        "reportTitle": "Medblocks openEHR Template Tester",
+        "reportFilename": "index"
+    },
+    "screenshotsFolder": "mochawesome-report/assets",
+    "screenshotOnRunFailure": false,
+    "video": false
 }
