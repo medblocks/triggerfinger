@@ -32,11 +32,13 @@ services:
     build: .
     container_name: cypress
     command: sh -c "/wait && npm run ci"
+    stdin_open: true
     environment:
       WAIT_HOSTS: db:5432, openehr:8080
       WAIT_TIMEOUT: 300
       WAIT_AFTER: 5
       WAIT_SLEEP_INTERVAL: 5
+      CI: "true"
     volumes:
       - ./template.opt:/app/template.opt
       - ./cypress:/app/cypress
