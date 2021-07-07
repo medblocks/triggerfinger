@@ -1,9 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('error') {
       steps {
-        sh 'docker-compose run cypress'
+        sh 'docker-compose run --rm cypress'
       }
     }
   }
