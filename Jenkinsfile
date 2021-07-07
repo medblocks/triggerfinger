@@ -6,10 +6,12 @@ pipeline {
         sh 'cat docker-compose.yml'
       }
     }
+
     stage('test') {
       steps {
-        sh 'docker-compose run cypress'
+        sh 'docker-compose run --rm cypress'
       }
     }
+
   }
 }
