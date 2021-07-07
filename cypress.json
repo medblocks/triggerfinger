@@ -6,7 +6,9 @@
         "html": true,
         "code": false,
         "reportTitle": "Medblocks openEHR Template Tester",
-        "reportFilename": "index"
+        "reportPageTitle": "Medblocks openEHR Template Tester",
+        "reportFilename": "index",
+        "cdn": true
     },
     "screenshotsFolder": "mochawesome-report/assets",
     "screenshotOnRunFailure": false,

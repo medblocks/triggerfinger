@@ -25,7 +25,6 @@ function waitForElementToDisplay(selector, callback, checkFrequencyInMs, timeout
 }
 
 docReady(() => {
-    console.log("Hey")
     waitForElementToDisplay(".suite-summary--component---cFAkx", function () {
         var list = document.querySelector('.suite-summary--component---cFAkx')
         var a = `<a href="assets/template.opt" class="suite-summary--summary-item---JHYFN" title="Template">Download Template</a>`

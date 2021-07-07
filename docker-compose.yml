@@ -41,6 +41,7 @@ services:
       - ./template.opt:/app/template.opt
       - ./cypress:/app/cypress
       - ./src:/app/src
+      - ./package.json:/app/package.json
       - ./index.html:/app/index.html
       - ./cypress.env.json:/app/cypress.env.json
       - ./cypress.json:/app/cypress.json

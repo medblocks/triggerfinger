@@ -8,7 +8,10 @@
     "build": "vite build",
     "test": "cypress run",
     "start": "vite",
-    "ci": "start-server-and-test start http-get://localhost:3000 test"
+    "cypress": "start-server-and-test start http-get://localhost:3000 test || true",
+    "ci": " npm run cypress && npm run copy && npm run replacehtml",
+    "copy": "cp template.opt mochawesome-report/assets/template.opt && cp src/extra.js mochawesome-report/assets/extra.js",
+    "replacehtml": "sed -i \"s:</body>:<script src=\"assets/extra.js\"></script></body>:g\" \"mochawesome-report/index.html\""
   },
   "keywords": [],
   "author": "",

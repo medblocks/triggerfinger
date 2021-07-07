@@ -1,7 +1,6 @@
 const addContext = require("mochawesome/addContext");
-
-describe("Compositions against EHRbase", () => {
-  const compositions = require("../../comp.json");
+const compositions = require("../../comp.json");
+describe(`Tested ${compositions.length} FLAT compositions against EHRbase`, () => {
   const baseUrl = Cypress.env("EHRBASE_URL");
   let templateId;
   let ehrId;
