@@ -9,7 +9,9 @@ pipeline {
 
     stage('test') {
       steps {
-        sh 'docker-compose run -u jenkins --rm cypress && docker-compose down'
+        sh '''mkdir output
+chown output
+docker-compose run --rm cypress && docker-compose down'''
       }
     }
 
