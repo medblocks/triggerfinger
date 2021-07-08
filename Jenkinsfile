@@ -16,6 +16,18 @@ pipeline {
         sh 'docker-compose run -e DOCKER_USER_ID=$(id -u):$(id -g) --rm cypress'
       }
     }
+    stage('publish') {
+      steps {
+        publishHTML (target: [
+          allowMissing: false,
+          alwaysLinkToLastBuild: false,
+          keepAll: true,
+          reportDir: 'output',
+          reportFiles: 'index.html',
+          reportName: "Template Report"
+        ])
+      }
+    }
   }
   post {
     always {
