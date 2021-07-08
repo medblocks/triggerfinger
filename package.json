@@ -10,8 +10,8 @@
     "start": "vite",
     "cypress": "start-server-and-test start http-get://localhost:3000 test || true",
     "ci": " npm run cypress && npm run copy && npm run replacehtml",
-    "copy": "install -D template.opt mochawesome-report/assets/template.opt && install -D src/extra.js mochawesome-report/assets/extra.js && chown -R jenkins mochawesome-report",
-    "replacehtml": "sed -i \"s:</body>:<script src=\"assets/extra.js\"></script></body>:g\" \"mochawesome-report/index.html\""
+    "copy": "install -D template.opt mochawesome-report/assets/template.opt && install -D src/extra.js mochawesome-report/assets/extra.js",
+    "replacehtml": "sed -i \"s:</body>:<script src=\"assets/extra.js\"></script></body>:g\" \"mochawesome-report/index.html\" && chown -R $DOCKER_USER_ID mochawesome-report"
   },
   "keywords": [],
   "author": "",
