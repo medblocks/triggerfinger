@@ -9,7 +9,7 @@ pipeline {
 
     stage('test') {
       steps {
-        sh 'docker-compose run --rm cypress'
+        sh 'docker-compose run -u jenkins --rm cypress && docker-compose down'
       }
     }
 
