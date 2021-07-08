@@ -1,24 +1,13 @@
 const addContext = require("mochawesome/addContext");
-const compositions = require("../../comp.json");
+const compositions = require("../../mochawesome-report/compositions.json");
 describe(`Tested ${compositions.length} FLAT compositions against EHRbase`, () => {
   const baseUrl = Cypress.env("EHRBASE_URL");
   let templateId;
   let ehrId;
   before(() => {
-    cy.task("getTemplate").then((template: { xml: string; name: string }) => {
-      cy.request({
-        url: `${baseUrl}/openehr/v1/definition/template/adl1.4`,
-        method: "POST",
-        body: template.xml,
-        headers: {
-          "Content-Type": "application/xml",
-        },
-        failOnStatusCode: false,
-      })
-        .then((r) => {
-          templateId = template.name;
-        })
-        .request({
+    cy.task("getTemplate").then((template: { xml: string; name: string }) => { 
+        templateId = template.name;
+        cy.request({
           url: `${baseUrl}/openehr/v1/ehr`,
           method: "POST",
         })

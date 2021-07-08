@@ -55,7 +55,7 @@ describe("Generate UI states", () => {
         }
       })
       .then(() => {
-        cy.writeFile("comp.json", compositions, "utf-8");
+        cy.writeFile("mochawesome-report/compositions.json", compositions, "utf-8");
         console.log(compositions);
       });
   });

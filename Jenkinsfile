@@ -6,14 +6,20 @@ pipeline {
         sh 'cat docker-compose.yml'
       }
     }
-
-    stage('test') {
+    stage('prepare') {
       steps {
-        sh '''mkdir output
-chown -R $USER output
-docker-compose run --rm cypress && docker-compose down'''
+        sh 'mkdir output && chown -R $USER output'
       }
     }
-
+    stage('test') {
+      steps {
+        sh 'docker-compose run --rm cypress'
+      }
+    }
+  }
+  post {
+    always {
+      sh 'docker-compose down'
+    }
   }
 }
