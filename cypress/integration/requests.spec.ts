@@ -1,17 +1,22 @@
 const addContext = require("mochawesome/addContext");
-const {templateId, compositions} = require("../../mochawesome-report/compositions.json");
-describe(`${templateId} - ${new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')}`, () => {
+const {
+  templateId,
+  compositions,
+} = require("../../mochawesome-report/compositions.json");
+describe(`${templateId} - ${new Date()
+  .toISOString()
+  .replace(/T/, " ")
+  .replace(/\..+/, "")}`, () => {
   const baseUrl = Cypress.env("EHRBASE_URL");
   let ehrId;
   before(() => {
-        cy.request({
-          url: `${baseUrl}/openehr/v1/ehr`,
-          method: "POST",
-        })
-        .then((r) => {
-          const etag = r.headers.etag as string;
-          ehrId = etag.replaceAll('"', "");
-        });
+    cy.request({
+      url: `${baseUrl}/openehr/v1/ehr`,
+      method: "POST",
+    }).then((r) => {
+      const etag = r.headers.etag as string;
+      ehrId = etag.replaceAll('"', "");
+    });
   });
   beforeEach(() => {
     cy.visit(`${Cypress.env("VITE_URL")}/#${templateId}`);
@@ -59,7 +64,7 @@ describe(`${templateId} - ${new Date().toISOString().replace(/T/, ' ').replace(/
           url: `${baseUrl}/ecis/v1/composition`,
           body,
           qs: { templateId, ehrId, format: "FLAT" },
-          timeout: 5000,
+          timeout: i === 0 ? 10000 : 5000, // First composition might take longer (web template cache?)
         });
     });
   });
