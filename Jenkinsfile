@@ -13,7 +13,7 @@ pipeline {
     }
     stage('test') {
       steps {
-        sh 'docker-compose run --rm cypress'
+        sh 'docker-compose run --user $(id -u):$(id -g) --rm cypress'
       }
     }
   }
