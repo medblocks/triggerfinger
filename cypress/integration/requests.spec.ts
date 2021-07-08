@@ -1,12 +1,9 @@
 const addContext = require("mochawesome/addContext");
-const compositions = require("../../mochawesome-report/compositions.json");
-describe(`Tested ${compositions.length} FLAT compositions against EHRbase`, () => {
+const {templateId, compositions} = require("../../mochawesome-report/compositions.json");
+describe(`${templateId} - ${new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')}`, () => {
   const baseUrl = Cypress.env("EHRBASE_URL");
-  let templateId;
   let ehrId;
   before(() => {
-    cy.task("getTemplate").then((template: { xml: string; name: string }) => { 
-        templateId = template.name;
         cy.request({
           url: `${baseUrl}/openehr/v1/ehr`,
           method: "POST",
@@ -15,7 +12,6 @@ describe(`Tested ${compositions.length} FLAT compositions against EHRbase`, () =
           const etag = r.headers.etag as string;
           ehrId = etag.replaceAll('"', "");
         });
-    });
   });
   beforeEach(() => {
     cy.visit(`${Cypress.env("VITE_URL")}/#${templateId}`);
